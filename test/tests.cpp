@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../src/nlpxx.h"
+#include "stem.h"
 
 using namespace std;
 

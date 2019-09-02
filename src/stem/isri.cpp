@@ -27,10 +27,6 @@ std::vector<utils::string> Isri::suffix3 = {
     U"\u062a\u064a\u0646", U"\u0643\u0645\u0644",
 };
 
-utils::regex Isri::short_vowels = utils::regex(U"[\u064B-\u0652]");
-utils::regex Isri::hamza = utils::regex(U"[\u0621\u0624\u0626]");
-utils::regex Isri::initial_hamza = utils::regex(U"^[\u0622\u0623\u0625]");
-
 std::unordered_set<utils::string> Isri::stop_words = {
     U"\u064a\u0643\u0648\u0646",
     U"\u0648\u0644\u064a\u0633",
@@ -86,9 +82,19 @@ std::unordered_set<utils::string> Isri::stop_words = {
 void Isri::norm(utils::string &word, Isri::Normalization normalization) const
 {
     if (normalization == NormalizeDiacritics || normalization == NormalizeBoth)
-        word = std::regex_replace(word, short_vowels, U"");
+    {
+        for (size_t i = 0; i < word.size(); ++i)
+            if (word[i] >= U'\u064B' && word[i] <= U'\u0652')
+            {
+                word.erase(word.begin() + ssize_t(i));
+                --i;
+            }
+    }
     if (normalization == NormalizeInitialHamza || normalization == NormalizeBoth)
-        word = std::regex_replace(word, initial_hamza, U"\u0627");
+    {
+        if (word[0] == U'\u0622' || word[0] == U'\u0623' || word[0] == U'\u0625')
+            word[0] = U'\u0627';
+    }
 }
 
 void Isri::pre32(utils::string &word) const
@@ -282,6 +288,8 @@ void Isri::pre1(utils::string &word) const
 {
     if (prefix1.find(word.back()) != utils::string::npos) word.erase(word.begin());
 }
+
+Isri::Isri() {}
 
 utils::string Isri::stem(utils::string token) const
 {

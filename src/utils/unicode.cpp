@@ -1,7 +1,7 @@
 #include "unicode.h"
 
-using namespace nlpxx::utils;
-
+namespace nlpxx::utils
+{
 std::string to_utf8(const std::u16string &str)
 {
     return std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t>().to_bytes(str);
@@ -35,3 +35,4 @@ std::u32string to_utf32(const std::u16string &str)
     return std::wstring_convert<std::codecvt_utf16<char32_t>, char32_t>().from_bytes(
         data, data + str.size());
 }
+}  // namespace nlpxx::utils

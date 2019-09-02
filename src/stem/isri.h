@@ -36,9 +36,6 @@ private:
     static std::vector<utils::string> prefix2, prefix3;
     /// length 2,3 suffixes
     static std::vector<utils::string> suffix2, suffix3;
-
-    /// regexes
-    static utils::regex short_vowels, hamza, initial_hamza;
     /// stop words
     static std::unordered_set<utils::string> stop_words;
 
@@ -70,7 +67,7 @@ private:
     void pre1(utils::string &word) const;
 
 public:
-    Isri() {}
+    Isri();
     utils::string stem(utils::string token) const override;
 };
 
