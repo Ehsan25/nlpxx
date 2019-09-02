@@ -1,13 +1,14 @@
 #pragma once
 
 #include <string>
+#include "../utils/utils.h"
 
 namespace nlpxx::stem
 {
 class Stemmer
 {
 public:
-    virtual std::string stem(const std::string &token) = 0;
+    virtual utils::string stem(const utils::string &token) = 0;
 };
 
 }  // namespace nlpxx::stem
