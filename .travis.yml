@@ -6,6 +6,7 @@ addons:
     sources:
       - llvm-toolchain-xenial-7
     packages:
+      - cmake
       - clang-7
       - clang-format-7
 
