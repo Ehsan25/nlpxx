@@ -3,31 +3,31 @@
 using namespace nlpxx;
 using namespace stem;
 
-utils::string Isri::prefix1 = U"\u0644\u0628\u0641\u0633\u0648\u064a\u062a\u0646\u0627";
-utils::string Isri::suffix1 = U"\u0629\u0647\u064a\u0643\u062a\u0627\u0646";
+utils::string ISRI::prefix1 = U"\u0644\u0628\u0641\u0633\u0648\u064a\u062a\u0646\u0627";
+utils::string ISRI::suffix1 = U"\u0629\u0647\u064a\u0643\u062a\u0627\u0646";
 
-std::vector<utils::string> Isri::prefix2 = {U"\u0627\u0644", U"\u0644\u0644"};
-std::vector<utils::string> Isri::prefix3 = {
+std::vector<utils::string> ISRI::prefix2 = {U"\u0627\u0644", U"\u0644\u0644"};
+std::vector<utils::string> ISRI::prefix3 = {
     U"\u0643\u0627\u0644",
     U"\u0628\u0627\u0644",
     U"\u0648\u0644\u0644",
     U"\u0648\u0627\u0644",
 };
 
-std::vector<utils::string> Isri::suffix2 = {
+std::vector<utils::string> ISRI::suffix2 = {
 
     U"\u0648\u0646", U"\u0627\u062a", U"\u0627\u0646", U"\u064a\u0646",
     U"\u062a\u0646", U"\u0643\u0645", U"\u0647\u0646", U"\u0646\u0627",
     U"\u064a\u0627", U"\u0647\u0627", U"\u062a\u0645", U"\u0643\u0646",
     U"\u0646\u064a", U"\u0648\u0627", U"\u0645\u0627", U"\u0647\u0645",
 };
-std::vector<utils::string> Isri::suffix3 = {
+std::vector<utils::string> ISRI::suffix3 = {
 
     U"\u062a\u0645\u0644", U"\u0647\u0645\u0644", U"\u062a\u0627\u0646",
     U"\u062a\u064a\u0646", U"\u0643\u0645\u0644",
 };
 
-std::unordered_set<utils::string> Isri::stop_words = {
+std::unordered_set<utils::string> ISRI::stop_words = {
     U"\u064a\u0643\u0648\u0646",
     U"\u0648\u0644\u064a\u0633",
     U"\u0648\u0643\u0627\u0646",
@@ -79,7 +79,7 @@ std::unordered_set<utils::string> Isri::stop_words = {
     U"\u0627\u0644\u0630\u0649",
 };
 
-void Isri::norm(utils::string &word, Isri::Normalization normalization) const
+void ISRI::norm(utils::string &word, ISRI::Normalization normalization) const
 {
     if (normalization == NormalizeDiacritics || normalization == NormalizeBoth)
     {
@@ -97,7 +97,7 @@ void Isri::norm(utils::string &word, Isri::Normalization normalization) const
     }
 }
 
-void Isri::pre32(utils::string &word) const
+void ISRI::pre32(utils::string &word) const
 {
     if (word.size() >= 6)
         for (auto prefix : prefix3)
@@ -112,7 +112,7 @@ void Isri::pre32(utils::string &word) const
             if (std::equal(prefix.begin(), prefix.end(), word.begin())) word.erase(0, 2);
 }
 
-void Isri::suf32(utils::string &word) const
+void ISRI::suf32(utils::string &word) const
 {
     if (word.size() >= 6)
         for (auto suffix : suffix3)
@@ -128,12 +128,12 @@ void Isri::suf32(utils::string &word) const
                 word.erase(word.size() - 2);
 }
 
-void Isri::waw(utils::string &word) const
+void ISRI::waw(utils::string &word) const
 {
     if (word.size() >= 4 && word[0] == U'\u0648' && word[1] == U'\u0648') word.erase(word.begin());
 }
 
-void Isri::pro_w4(utils::string &word) const
+void ISRI::pro_w4(utils::string &word) const
 {
     if (word[0] == U'\u0645')
         word.erase(word.begin());
@@ -155,7 +155,7 @@ void Isri::pro_w4(utils::string &word) const
     }
 }
 
-void Isri::pro_w53(utils::string &word) const
+void ISRI::pro_w53(utils::string &word) const
 {
     if ((word[2] == U'\u0627' || word[2] == U'\u062a') && word[0] == U'\u0627')
     {
@@ -209,7 +209,7 @@ void Isri::pro_w53(utils::string &word) const
     }
 }
 
-void Isri::pro_w54(utils::string &word) const
+void ISRI::pro_w54(utils::string &word) const
 {
     if (word[0] == U'\u0627' || word[0] == U'\u062a' || word[0] == U'\u0645')
         word.erase(word.begin());
@@ -219,7 +219,7 @@ void Isri::pro_w54(utils::string &word) const
         word.erase(word.begin() + 2);
 }
 
-void Isri::end_w5(utils::string &word) const
+void ISRI::end_w5(utils::string &word) const
 {
     if (word.size() == 4)
         pro_w4(word);
@@ -227,7 +227,7 @@ void Isri::end_w5(utils::string &word) const
         pro_w54(word);
 }
 
-void Isri::pro_w6(utils::string &word) const
+void ISRI::pro_w6(utils::string &word) const
 {
     if ((word[0] == U'\u0627' || word[0] == U'\u0645') && word[1] == U'\u0633' &&
         word[2] == U'\u062a')
@@ -256,7 +256,7 @@ void Isri::pro_w6(utils::string &word) const
     }
 }
 
-void Isri::pro_w64(utils::string &word) const
+void ISRI::pro_w64(utils::string &word) const
 {
     if (word[0] == U'\u0627' && word[4] == U'\u0627')
     {
@@ -268,7 +268,7 @@ void Isri::pro_w64(utils::string &word) const
         word.erase(0, 2);
 }
 
-void Isri::end_w6(utils::string &word) const
+void ISRI::end_w6(utils::string &word) const
 {
     if (word.size() == 5)
     {
@@ -279,19 +279,19 @@ void Isri::end_w6(utils::string &word) const
         pro_w64(word);
 }
 
-void Isri::suf1(utils::string &word) const
+void ISRI::suf1(utils::string &word) const
 {
     if (suffix1.find(word.back()) != utils::string::npos) word.pop_back();
 }
 
-void Isri::pre1(utils::string &word) const
+void ISRI::pre1(utils::string &word) const
 {
     if (prefix1.find(word.back()) != utils::string::npos) word.erase(word.begin());
 }
 
-Isri::Isri() {}
+ISRI::ISRI() {}
 
-utils::string Isri::stem(utils::string token) const
+utils::string ISRI::stem(utils::string token) const
 {
     norm(token, NormalizeDiacritics);
     if (stop_words.find(token) != stop_words.end()) return token;

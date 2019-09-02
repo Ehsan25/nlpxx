@@ -6,9 +6,9 @@
 using namespace nlpxx::utils;
 using namespace nlpxx::stem;
 
-TEST(Stem, Isri)
+TEST(Stem, ISRI)
 {
-    Isri stemmer;
+    ISRI stemmer;
 
     EXPECT_EQ(stemmer.stem(U"الْعَرَبِــــــيَّة"), U"عربــــــية");
     EXPECT_EQ(stemmer.stem(U"العربية"), U"عرب");

@@ -1,9 +1,9 @@
 #pragma once
 
-#include <regex>
 #include <string>
 #include <unordered_set>
 #include <vector>
+#include "../utils/utils.h"
 #include "base.h"
 
 // TODO optimize slicing and remove unneeded variables. maaybe turn some of the vectors into sets
@@ -19,7 +19,7 @@ namespace nlpxx::stem
 /// The ISRI Stemmer requires that all tokens have Unicode string types.
 /// If you use Python IDLE on Arabic Windows you have to decode text first
 /// using Arabic '1256' coding.
-class Isri : public Stemmer
+class ISRI : public Stemmer
 {
 public:
     enum Normalization
@@ -67,7 +67,7 @@ private:
     void pre1(utils::string &word) const;
 
 public:
-    Isri();
+    ISRI();
     utils::string stem(utils::string token) const override;
 };
 
