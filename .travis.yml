@@ -43,6 +43,6 @@ matrix:
       - make -j8
       - ./Tests
       - cd ..
-    - env: 
-      script: Clang Format Check
+    - env: Clang Format Check
+      script: 
       - ./scripts/run-clang-format/run-clang-format.py -r src test
