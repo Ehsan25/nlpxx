@@ -8,7 +8,7 @@ namespace nlpxx::stem
 class Stemmer
 {
 public:
-    virtual utils::string stem(const utils::string &token) = 0;
+    virtual utils::string stem(utils::string token) const = 0;
 };
 
 }  // namespace nlpxx::stem

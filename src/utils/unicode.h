@@ -7,6 +7,7 @@
 
 namespace nlpxx::utils
 {
+using character = char32_t;
 using string = std::u32string;
 using regex = std::basic_regex<char32_t>;
 
