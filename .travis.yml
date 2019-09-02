@@ -32,3 +32,15 @@ script:
   - make
   - ./Tests
   - cd ..
+
+matrix:
+  include:
+    - script:
+      - mkdir build
+      - cd build
+      - cmake ..
+      - make
+      - ./Tests
+      - cd ..
+    - script:
+      - ./scripts/run-clang-format/run-clang-format.py -r src
