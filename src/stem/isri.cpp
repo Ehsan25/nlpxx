@@ -3,10 +3,8 @@
 using namespace nlpxx;
 using namespace stem;
 
-utils::string Isri::prefix1 = {
-    U"\u0644\u0628\u0641\u0633\u0648\u064a\u062a\u0646\u0627",
-};
-utils::string Isri::suffix1 = {U"\u0629\u0647\u064a\u0643\u062a\u0627\u0646"};
+utils::string Isri::prefix1 = U"\u0644\u0628\u0641\u0633\u0648\u064a\u062a\u0646\u0627";
+utils::string Isri::suffix1 = U"\u0629\u0647\u064a\u0643\u062a\u0627\u0646";
 
 std::vector<utils::string> Isri::prefix2 = {U"\u0627\u0644", U"\u0644\u0644"};
 std::vector<utils::string> Isri::prefix3 = {

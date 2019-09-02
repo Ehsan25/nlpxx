@@ -14,6 +14,7 @@ install(FILES ${HEADERS} DESTINATION ${CMAKE_INSTALL_PREFIX}/include/${PROJECT_N
 install(FILES ${STEM_HEADERS} DESTINATION ${CMAKE_INSTALL_PREFIX}/include/${PROJECT_NAME}/stem)
 install(FILES ${UTILS_HEADERS} DESTINATION ${CMAKE_INSTALL_PREFIX}/include/${PROJECT_NAME}/utils)
 
-add_executable(Tests test/tests.cpp)
+file(GLOB TEST_HEADERS test/*.h)
+add_executable(Tests test/tests.cpp ${TEST_HEADERS})
 target_link_libraries(Tests gtest)
 target_link_libraries(Tests ${PROJECT_NAME})

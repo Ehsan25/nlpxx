@@ -9,7 +9,7 @@ namespace nlpxx::utils
 {
 using character = char32_t;
 using string = std::u32string;
-using regex = std::basic_regex<char32_t>;
+using regex = std::basic_regex<character>;
 
 std::string to_utf8(const std::u16string &str);
 std::string to_utf8(const std::u32string &str);
