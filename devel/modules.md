@@ -24,6 +24,15 @@ NLTK modules that need to be replaced:
 - [ ] nltk.sem
 - [ ] nltk.sentiment
 - [ ] nltk.stem
+  - [ ] stem.arlstem
+  - [ ] stem.cistem
+  - [ ] stem.isri
+  - [ ] stem.lancaster
+  - [ ] stem.porter
+  - [ ] stem.regexp
+  - [ ] stem.rslp
+  - [ ] stem.snowball
+  - [ ] stem.wordnet
 - [ ] nltk.tag
 - [ ] nltk.tbl;
 - [ ] nltk.test
