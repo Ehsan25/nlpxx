@@ -21,9 +21,6 @@
 #include "../utils/utils.h"
 #include "base.h"
 
-// TODO optimize slicing and remove unneeded variables. maaybe turn some of the vectors into sets
-// for speed
-
 namespace nlpxx::stem
 {
 /// ISRI Arabic stemmer based on algorithm: Arabic Stemming without a root
