@@ -6,7 +6,7 @@
 // You may obtain a copy of the License at
 //
 //     http://www.apache.org/licenses/LICENSE-2.0
-// 
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -115,7 +115,7 @@ void ISRI::norm(utils::string &word, ISRI::Normalization normalization) const
 void ISRI::pre32(utils::string &word) const
 {
     if (word.size() >= 6)
-        for (auto prefix : prefix3)
+        for (const auto &prefix : prefix3)
             if (std::equal(prefix.begin(), prefix.end(), word.begin()))
             {
                 word.erase(0, 3);
@@ -123,14 +123,14 @@ void ISRI::pre32(utils::string &word) const
             }
 
     if (word.size() >= 5)
-        for (auto prefix : prefix2)
+        for (const auto &prefix : prefix2)
             if (std::equal(prefix.begin(), prefix.end(), word.begin())) word.erase(0, 2);
 }
 
 void ISRI::suf32(utils::string &word) const
 {
     if (word.size() >= 6)
-        for (auto suffix : suffix3)
+        for (const auto &suffix : suffix3)
             if (std::equal(suffix.begin(), suffix.end(), word.end() - suffix.size()))
             {
                 word.erase(word.size() - 3);
@@ -138,7 +138,7 @@ void ISRI::suf32(utils::string &word) const
             }
 
     if (word.size() >= 5)
-        for (auto suffix : suffix2)
+        for (const auto &suffix : suffix2)
             if (std::equal(suffix.begin(), suffix.end(), word.end() - suffix.size()))
                 word.erase(word.size() - 2);
 }
@@ -153,9 +153,7 @@ void ISRI::pro_w4(utils::string &word) const
     if (word[0] == U'\u0645')
         word.erase(word.begin());
     else if (word[1] == U'\u0627')
-    {
         word.erase(word.begin() + 1);
-    }
     else if (word[2] == U'\u0627' || word[2] == U'\u0648' || word[2] == U'\u064A')
     {
         word.erase(word.begin() + 2);
@@ -248,22 +246,16 @@ void ISRI::pro_w6(utils::string &word) const
         word[2] == U'\u062a')
         word.erase(0, 3);
     else if (word[0] == U'\u0645' && word[3] == U'\u0627' && word[5] == U'\u0629')
-    {
         word = utils::string() + word[1] + word[2] + word[4];
-    }
     else if (word[0] == U'\u0627' && word[2] == U'\u062a' && word[4] == U'\u0627')
-    {
         word = utils::string() + word[1] + word[3] + word[5];
-    }
     else if (word[0] == U'\u0627' && word[3] == U'\u0648' && word[2] == word[4])
     {
         word.erase(word.begin());
         word.erase(1, 2);
     }
     else if (word[0] == U'\u062a' && word[2] == U'\u0627' && word[4] == U'\u064a')
-    {
         word = utils::string() + word[1] + word[3] + word[5];
-    }
     else
     {
         suf1(word);
