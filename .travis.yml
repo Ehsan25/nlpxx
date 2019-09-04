@@ -29,16 +29,16 @@ matrix:
     - env: Run Clang Tests
       before_script:
         - export CC=clang-8 && export CXX=clang++-8
-      script:
         - mkdir build && cd build
         - cmake .. && make -j8
+      script:
         - ./Tests
     - env: Run GCC Tests
       before_script:
         - export CC=gcc-9 && export CXX=g++-9
-      script:
         - mkdir build && cd build
         - cmake .. && make -j8
+      script:
         - ./Tests
     - env: Clang Format Check
       script: 
