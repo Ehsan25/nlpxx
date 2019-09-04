@@ -4,8 +4,11 @@ dist: xenial
 addons:
   apt:
     sources:
+      - ubuntu-toolchain-r-test
       - llvm-toolchain-xenial-8
     packages:
+      - g++-9
+      - gcc-9
       - cmake
       - clang-8
       - clang-format-8
@@ -22,16 +25,19 @@ install:
   - cd -
 
 before_script:
-  - export CC=clang-8
-  - export CXX=clang++-8
+  - export CC=clang-8 && export CXX=clang++-8
 
 matrix:
   include:
     - env: Run Tests
+      before_script:
+        - export CC=clang-8 && export CXX=clang++-8
       script:
-      - mkdir build && cd build
-      - cmake .. && make -j8
-      - ./Tests
+        - mkdir build && cd build
+        - cmake .. && make -j8
+        - ./Tests
     - env: Clang Format Check
+      before_script:
+        - export CC=gcc-9 && export CXX=g++-9
       script: 
-      - ./clang-check/run-clang-format.py -r src test
+        - ./clang-check/run-clang-format.py -r src test
