@@ -15,9 +15,6 @@
 
 #pragma once
 
-#include <codecvt>
-#include <locale>
-#include <regex>
 #include <string>
 
 namespace nlpxx::utils
@@ -35,9 +32,15 @@ public:
     ~regex();
 
     regex(const string &pattern);
+    regex(const character *pattern);
+
     void set(const string &pattern);
+    void set(const character *pattern);
+
     bool match(const string &text);
+
     string replace(const string &text, const string &replacement);
+    string replace(const string &text, const character *replacement);
 };
 
 std::string str2std(const string &str);

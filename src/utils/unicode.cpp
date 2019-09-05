@@ -15,6 +15,8 @@
 
 #include "unicode.h"
 #include <assert.h>
+#include <codecvt>
+#include <locale>
 
 #define PCRE2_CODE_UNIT_WIDTH 32
 #include <pcre2.h>
@@ -42,14 +44,18 @@ regex::~regex() { delete_if(); }
 
 regex::regex(const string &pattern) { set(pattern); }
 
-void regex::set(const string &pattern)
+regex::regex(const character *pattern) { set(pattern); }
+
+void regex::set(const string &pattern) { set(pattern.c_str()); }
+
+void regex::set(const character *pattern)
 {
-    auto str = reinterpret_cast<PCRE2_SPTR32>(pattern.data());
+    auto str = reinterpret_cast<PCRE2_SPTR32>(pattern);
     delete_if();
 
     int error_number;
     size_t error_offset;
-    data = pcre2_compile_32(str, pattern.size(), 0, &error_number, &error_offset, nullptr);
+    data = pcre2_compile_32(str, PCRE2_ZERO_TERMINATED, 0, &error_number, &error_offset, nullptr);
     assert(data && "Failed to compile regex (probably wrong syntax)");
 }
 
@@ -70,7 +76,12 @@ bool regex::match(const string &text)
 
 string regex::replace(const string &text, const string &replacement)
 {
-    auto rep = reinterpret_cast<PCRE2_SPTR32>(replacement.data());
+    return replace(text, replacement.c_str());
+}
+
+string regex::replace(const string &text, const character *replacement)
+{
+    auto rep = reinterpret_cast<PCRE2_SPTR32>(replacement);
     auto str = reinterpret_cast<PCRE2_SPTR32>(text.data());
     auto code = static_cast<pcre2_code_32 *>(data);
     assert(code && "Can't use empty regex to replace");
@@ -78,7 +89,7 @@ string regex::replace(const string &text, const string &replacement)
     PCRE2_UCHAR32 output[1024];
     size_t output_size = 1024;
     auto result = pcre2_substitute_32(code, str, text.size(), 0, PCRE2_SUBSTITUTE_GLOBAL, nullptr,
-                                      nullptr, rep, replacement.size(), output, &output_size);
+                                      nullptr, rep, PCRE2_ZERO_TERMINATED, output, &output_size);
     assert(result >= 0 && "Failed to replace using regex");
     return string(output, output + output_size);
 }
