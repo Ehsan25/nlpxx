@@ -16,7 +16,7 @@
 #pragma once
 
 #include <gtest/gtest.h>
-#include "../src/nlpxx.h"
+#include <nlpxx.h>
 
 using namespace nlpxx::utils;
 using namespace nlpxx::stem;

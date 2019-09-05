@@ -14,40 +14,51 @@
 // limitations under the License.
 
 #include "unicode.h"
+#include <assert.h>
+
+#define PCRE2_CODE_UNIT_WIDTH 32
+#include <pcre2.h>
 
 namespace nlpxx::utils
 {
-std::string to_utf8(const std::u16string &str)
-{
-    return std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t>().to_bytes(str);
-}
-
-std::string to_utf8(const std::u32string &str)
+std::string str2std(const string &str)
 {
     return std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t>().to_bytes(str);
 }
 
-std::u16string to_utf16(const std::string &str)
-{
-    return std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t>().from_bytes(str);
-}
-
-std::u16string to_utf16(const std::u32string &str)
-{
-    auto result = std::wstring_convert<std::codecvt_utf16<char32_t>, char32_t>().to_bytes(str);
-    return std::u16string(reinterpret_cast<const char16_t *>(result.data()),
-                          result.size() / sizeof(char16_t));
-}
-
-std::u32string to_utf32(const std::string &str)
+string std2str(const std::string &str)
 {
     return std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t>().from_bytes(str);
 }
 
-std::u32string to_utf32(const std::u16string &str)
+regex::regex() {}
+
+regex::~regex()
 {
-    auto data = reinterpret_cast<const char *>(str.data());
-    return std::wstring_convert<std::codecvt_utf16<char32_t>, char32_t>().from_bytes(
-        data, data + str.size());
+    if (data) delete static_cast<pcre2_code_32 *>(data);
 }
+
+regex::regex(const string &pattern) { set(pattern); }
+
+void regex::set(const string &pattern)
+{
+    auto str = reinterpret_cast<PCRE2_SPTR32>(pattern.data());
+    auto ptr = static_cast<pcre2_code_32 *>(data);
+    if (ptr) delete ptr;
+
+    ptr = pcre2_compile_32(str, pattern.size(), 0, nullptr, nullptr, nullptr);
+    assert(ptr);
+}
+
+bool regex::match(const string &text)
+{
+    auto str = reinterpret_cast<PCRE2_SPTR32>(text.data());
+    auto ptr = static_cast<pcre2_code_32 *>(data);
+    assert(ptr);
+
+    auto md = pcre2_match_data_create_from_pattern_32(ptr, nullptr);
+    auto result = pcre2_match_32(ptr, str, text.size(), 0, 0, md, nullptr);
+    return result >= 0;
+}
+
 }  // namespace nlpxx::utils

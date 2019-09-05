@@ -42,4 +42,4 @@ matrix:
         - ./Tests
     - env: Clang Format Check
       script: 
-        - ./clang-check/run-clang-format.py -r src test
+        - ./3rd/run-clang-format/run-clang-format.py -r src test

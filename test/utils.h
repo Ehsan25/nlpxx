@@ -14,13 +14,8 @@
 // limitations under the License.
 
 #include <gtest/gtest.h>
-#include "stem.h"
-#include "utils.h"
+#include <nlpxx.h>
 
-using namespace std;
+using namespace nlpxx::utils;
 
-int main(int argc, char **argv)
-{
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+TEST(Utils, Regex) {}

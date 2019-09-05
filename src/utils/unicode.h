@@ -25,13 +25,20 @@ namespace nlpxx::utils
 using character = char32_t;
 using string = std::u32string;
 
-std::string to_utf8(const std::u16string &str);
-std::string to_utf8(const std::u32string &str);
+class regex
+{
+    void *data{nullptr};
 
-std::u16string to_utf16(const std::string &str);
-std::u16string to_utf16(const std::u32string &str);
+public:
+    regex();
+    ~regex();
 
-std::u32string to_utf32(const std::string &str);
-std::u32string to_utf32(const std::u16string &str);
+    regex(const string &pattern);
+    void set(const string &pattern);
+    bool match(const string &text);
+};
+
+std::string str2std(const string &str);
+string std2str(const std::string &str);
 
 }  // namespace nlpxx::utils

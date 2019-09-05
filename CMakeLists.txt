@@ -10,6 +10,7 @@ file(GLOB STEM_SOURCES src/stem/*.cpp)
 file(GLOB UTILS_HEADERS src/utils/*.h)
 file(GLOB UTILS_SOURCES src/utils/*.cpp)
 
+include_directories(src/)
 add_library(${PROJECT_NAME} SHARED ${HEADERS} ${STEM_HEADERS} ${STEM_SOURCES} ${UTILS_HEADERS} ${UTILS_SOURCES})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${PCRE2_LIB})
 
