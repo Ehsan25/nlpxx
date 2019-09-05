@@ -31,34 +31,56 @@ string std2str(const std::string &str)
     return std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t>().from_bytes(str);
 }
 
+void regex::delete_if()
+{
+    if (data) pcre2_code_free_32(static_cast<pcre2_code_32 *>(data));
+}
+
 regex::regex() {}
 
-regex::~regex()
-{
-    if (data) delete static_cast<pcre2_code_32 *>(data);
-}
+regex::~regex() { delete_if(); }
 
 regex::regex(const string &pattern) { set(pattern); }
 
 void regex::set(const string &pattern)
 {
     auto str = reinterpret_cast<PCRE2_SPTR32>(pattern.data());
-    auto ptr = static_cast<pcre2_code_32 *>(data);
-    if (ptr) delete ptr;
+    delete_if();
 
-    ptr = pcre2_compile_32(str, pattern.size(), 0, nullptr, nullptr, nullptr);
-    assert(ptr);
+    int error_number;
+    size_t error_offset;
+    data = pcre2_compile_32(str, pattern.size(), 0, &error_number, &error_offset, nullptr);
+    assert(data && "Failed to compile regex (probably wrong syntax)");
 }
 
 bool regex::match(const string &text)
 {
     auto str = reinterpret_cast<PCRE2_SPTR32>(text.data());
-    auto ptr = static_cast<pcre2_code_32 *>(data);
-    assert(ptr);
+    auto code = static_cast<pcre2_code_32 *>(data);
+    assert(code && "Can't use empty regex to match");
 
-    auto md = pcre2_match_data_create_from_pattern_32(ptr, nullptr);
-    auto result = pcre2_match_32(ptr, str, text.size(), 0, 0, md, nullptr);
+    auto md = pcre2_match_data_create_from_pattern_32(code, nullptr);
+    auto result = pcre2_match_32(code, str, text.size(), 0, 0, md, nullptr);
+    pcre2_match_data_free_32(md);
+
+    assert((result >= 0 || result == PCRE2_ERROR_NOMATCH || result == PCRE2_ERROR_PARTIAL) &&
+           "Failed to match using regex");
     return result >= 0;
+}
+
+string regex::replace(const string &text, const string &replacement)
+{
+    auto rep = reinterpret_cast<PCRE2_SPTR32>(replacement.data());
+    auto str = reinterpret_cast<PCRE2_SPTR32>(text.data());
+    auto code = static_cast<pcre2_code_32 *>(data);
+    assert(code && "Can't use empty regex to replace");
+
+    PCRE2_UCHAR32 output[1024];
+    size_t output_size = 1024;
+    auto result = pcre2_substitute_32(code, str, text.size(), 0, PCRE2_SUBSTITUTE_GLOBAL, nullptr,
+                                      nullptr, rep, replacement.size(), output, &output_size);
+    assert(result >= 0 && "Failed to replace using regex");
+    return string(output, output + output_size);
 }
 
 }  // namespace nlpxx::utils

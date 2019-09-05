@@ -18,4 +18,17 @@
 
 using namespace nlpxx::utils;
 
-TEST(Utils, Regex) {}
+TEST(Utils, Regex)
+{
+    regex R1(U"[a-z]");
+    string text1 = U"a";
+    string text2 = U"A";
+
+    EXPECT_EQ(R1.match(text1), true);
+    EXPECT_EQ(R1.match(text2), false);
+
+    regex R2(U"hi");
+    EXPECT_EQ(R2.replace(U"hie", U"bye"), U"byee");
+    EXPECT_EQ(R2.replace(U"hoe", U"bye"), U"hoe");
+    EXPECT_EQ(R2.replace(U"hihie", U"by"), U"bybye");
+}

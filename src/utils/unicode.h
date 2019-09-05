@@ -28,6 +28,7 @@ using string = std::u32string;
 class regex
 {
     void *data{nullptr};
+    void delete_if();
 
 public:
     regex();
@@ -36,6 +37,7 @@ public:
     regex(const string &pattern);
     void set(const string &pattern);
     bool match(const string &text);
+    string replace(const string &text, const string &replacement);
 };
 
 std::string str2std(const string &str);
